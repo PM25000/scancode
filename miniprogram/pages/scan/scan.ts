@@ -77,45 +77,6 @@ Page({
             time:e.timeStamp,
         })
         let tsql = e.detail.value.tsql;
-//         let tsql=`SELECT BILL_DET.DELIVER_LIST_NO,   
-//         BILL_DET.BILL_COD,   
-//         PRO_CD = MAT_MASTER.MAT_NAME,   
-//         new_start_mat_code = MAT_MASTER.new_start_mat_code,
-//         BILL_DET.ORDER_NO,    
-//         BILL_DET.CT_CD,    
-//         in_NUM = BILL_DET.in_NUM,       
-//         BILL_DET.box_no,        
-//         BILL_DET.detail_note,  
-//         BILL_DET.pro_cd,     
-//         BILL_DET.mat_type,   
-//         mat_name = MAT_MASTER.SPEC_TYPE_NO,  
-//         BILL_DET.note_no,   
-//         BILL_DET.mat_unit,        
-//         customer_code = CUSTOM.customer_code,  
-//         CST_NAME = CUSTOM.CST_NAME, 
-//         cst_two = CT_ORDER.CST_CODE, 
-//         CT_ORDER.custom_order_no, 
-//         BILLOFLADING.SEND_DATE,
-//          money_code = CT_ORDER.money_code ,
-//         USER_MATCODE  = customer_mat.USER_MATCODE   , 
-//         cus_type = customer_mat.USER_spec_type_no   ,
-//         com_name = case when BILLOFLADING.storage_no = '2' then '宇锋' else '大锋' end   ,
-//         ct_od.bz,
-//         ct_od.xp_type,
-//         scan_amt = BILL_DET.scan_amt,
-//         scan_date = BILL_DET.scan_date,
-//         scan_man = BILL_DET.scan_man,
-//         customer_add = BILLOFLADING.customer_add
-//    FROM BILL_DET left outer join (ct_od inner join CT_ORDER on ct_od.ORDER_NO = CT_ORDER.ORDER_NO)  on  BILL_DET.ct_cd = ct_od.ct_cd and 
-//                                            BILL_DET.ORDER_NO = ct_od.order_no             
-//          left outer join customer_mat with(nolock) on ct_od.usermat_id = customer_mat.id,  
-//         BILLOFLADING,
-//          MAT_MASTER,
-//         CUSTOM 
-//   WHERE BILLOFLADING.DELIVER_LIST_NO = BILL_DET.DELIVER_LIST_NO and
-//         BILL_DET.mat_type = MAT_MASTER.MAT_CODE  AND        
-//         BILLOFLADING.CUSTOMER_CODE = CUSTOM.CUSTOMER_CODE and         
-//           BILL_DET.DELIVER_LIST_NO =  'SH2022021602'`;
         console.log(this.data.time);
         console.log(tsql);
 
