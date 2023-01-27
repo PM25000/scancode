@@ -1,0 +1,2 @@
+<!--components/listItem/listItem.wxml-->
+<text>{{item.unit_price}}</text>

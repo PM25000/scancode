@@ -1,0 +1,12 @@
+/* pages/scan/scan.wxss */
+
+.class_input{
+    padding: 20rpx;
+}
+.res-area{
+    margin-top: 200rpx;
+}
+
+.scroll-view-item{
+    height: 300rpx;
+}

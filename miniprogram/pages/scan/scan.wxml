@@ -1,0 +1,34 @@
+<!--pages/scan/scan.wxml-->
+<text>pages/scan/scan.wxml</text>
+
+<view class="scanView">
+    <button class="scanBtn" bindtap="handleScan" data-id="{{curId}}">点击扫码
+    </button>
+    <text class="scanResult">{{res[0]}}
+    </text>
+    <text class="scanResult">{{res[1]}}</text>
+
+
+    <camera mode="scanCode" device-position="back" binderror="error" style="width: 100%; height: 150px; margin: auto;" bindscancode="takeCode" scan-area="[0,0,200, 200]">
+    </camera>
+
+</view>
+
+<form bindsubmit="formSubmit" >
+<view class="section" style="width: 750rpx; height: 82rpx;">
+  <input class="class_input" name="tsql" placeholder="sql" value="SELECT BILL_DET.unit_price FROM BILL_DET"/>
+  <button formType="submit" class="button">提交</button> 
+</view>
+<scroll-view scroll-y="true" style="height: 300rpx;" class="res-area">
+  <text class="tim">{{time}}
+  </text>
+  <view wx:for="{{ret}}" wx:for-item="item" wx:for-index="index" wx:key="index">
+    <!-- <text>{{item.unit_price}}</text> -->
+    <listItem index="{{index}}" item="{{item}}"></listItem>
+  </view>
+  <text class="ret">{{ret}}</text>
+</scroll-view>
+
+
+
+</form>
