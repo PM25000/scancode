@@ -1,2 +1,20 @@
 <!--components/listItem/listItem.wxml-->
 <text>{{item.unit_price}}</text>
+
+<view class="item_info">
+	<view class="info_bar">
+    <text>当前是第{{itemid}}个</text>
+  </view>
+  <view class="info_bar">
+    <text>编号：{{number}}</text>
+  </view>
+  <view class="info_bar">
+    <text>型号：{{xxxxxx}}</text>
+  </view>
+  <view class="info_bar">
+    <text>数量：{{xxxxxx}}</text>
+  </view>
+  <view class="info_bar">
+    <text>扫描数量：{{xxxxxx}}</text>
+  </view>
+</view>

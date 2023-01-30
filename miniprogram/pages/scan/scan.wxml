@@ -1,17 +1,33 @@
 <!--pages/scan/scan.wxml-->
-<text>pages/scan/scan.wxml</text>
+<!-- <text>pages/scan/scan.wxml</text> -->
+<view class="top">
+  <text>当前送货单号：{{main_id}}</text>
+</view>
+<button bindtap="last_item">上一个</button>
+<button bindtap="next_item">下一个</button>
+<view><text>{{itemid}}</text></view>
+<listItem itemid="{{itemid}}"/>
 
 <view class="scanView">
     <button class="scanBtn" bindtap="handleScan" data-id="{{curId}}">点击扫码
     </button>
-    <text class="scanResult">{{res[0]}}
+    <!-- <text class="scanResult">{{res[0]}}
     </text>
-    <text class="scanResult">{{res[1]}}</text>
+    <text class="scanResult">{{res[1]}}</text> -->
 
 
     <camera mode="scanCode" device-position="back" binderror="error" style="width: 100%; height: 150px; margin: auto;" bindscancode="takeCode" scan-area="[0,0,200, 200]">
     </camera>
 
+</view>
+
+<view class="scanResult">
+  <view class="info_bar">
+    <text>客户标签：{{res[0]}}</text>
+  </view>
+  <view class="info_bar">
+    <text>入库标签：{{res[1]}}</text>
+  </view>
 </view>
 
 <form bindsubmit="formSubmit" >

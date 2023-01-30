@@ -10,6 +10,9 @@ Page({
         scanFunctionIsUseAble: true,
         ret:[],
         time:'time',
+        mainid: null,
+        itemid: 1,
+        total: 5
     },
 
     takeCode(e) {
@@ -106,6 +109,20 @@ Page({
             }
           })
           console.log(this.data.ret);
+    },
+    last_item(e){
+      var data=this.data.itemid;
+      if (data>1) data -= 1;
+      this.setData({
+        itemid: data
+      });
+    },
+    next_item(e){
+      var data=this.data.itemid;
+      if (data<this.data.total) data += 1;
+      this.setData({
+        itemid: data
+      });
     },
     /**
      * 生命周期函数--监听页面加载

@@ -1,1 +1,4 @@
 /* components/listItem/listItem.wxss */
+.item_info{
+  border: 5rpx solid green;
+}

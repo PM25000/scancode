@@ -9,6 +9,9 @@ Component({
         },
         index:{
             type: Number,
+        },
+        itemid:{
+            type: Number,
         }
     },
 
