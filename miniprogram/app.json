@@ -2,13 +2,26 @@
     "pages": [
         "pages/scan/scan",
         "pages/index/index",
-        "pages/logs/logs"
+        "pages/logs/logs",
+        "pages/query/query"
     ],
     "window": {
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#fff",
         "navigationBarTitleText": "Weixin",
         "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "list": [
+            {
+                "pagePath": "pages/query/query",
+                "text": "查询"
+            },
+            {
+                "pagePath": "pages/scan/scan",
+                "text": "扫描"
+            }
+        ]
     },
     "style": "v2",
     "sitemapLocation": "sitemap.json"

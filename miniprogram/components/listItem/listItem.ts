@@ -10,7 +10,10 @@ Component({
         index:{
             type: Number,
         },
-        itemid:{
+        itemId:{
+            type: Number,
+        },
+        orderId:{
             type: Number,
         }
     },

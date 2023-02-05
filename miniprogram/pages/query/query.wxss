@@ -1,0 +1,8 @@
+/* pages/query/query.wxss */
+.flip{
+	text-align: center;
+	/* flex-direction: row */
+}
+.flip text{
+	font-size: 80rpx;
+}
