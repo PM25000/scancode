@@ -1,0 +1,33 @@
+<!--pages/query/query.wxml-->
+<!-- <text>pages/scan/scan.wxml</text> -->
+<view class="top">
+  <input class="input" name="orderId" placeholder="请输入需要查询的订单号" bindinput="orderIdInput" />
+  <button class="query" bindtap="queryOrder">查询</button>
+  <text>测试--当前送货单号：{{orderId}}</text>
+</view>
+<view class="flip">
+  <button bindtap="last_item" size="mini"> {{'<'}} </button>
+  <text> {{itemId}} </text>
+  <button bindtap="next_item" size="mini"> {{'>'}} </button>
+</view>
+<listItem orderId="{{orderId}}" itemId="{{itemId}}"/>
+
+<view class="scanView">
+    <!-- <text class="scanResult">{{res[0]}}
+    </text>
+    <text class="scanResult">{{res[1]}}</text> -->
+
+
+    <camera mode="scanCode" device-position="back" binderror="error" style="width: 100%; height: 150px; margin: auto;" bindscancode="takeCode" scan-area="[0,0,200, 200]">
+    </camera>
+    <button class="scanBtn" bindtap="handleScan" data-id="{{curId}}">点击扫码</button>
+</view>
+
+<view class="scanResult">
+  <view class="info_bar">
+    <text>客户标签：{{res[0]}}</text>
+  </view>
+  <view class="info_bar">
+    <text>入库标签：{{res[1]}}</text>
+  </view>
+</view>

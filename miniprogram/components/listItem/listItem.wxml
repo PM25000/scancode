@@ -3,7 +3,7 @@
 
 <view class="item_info">
 	<view class="info_bar">
-    <text>当前是第{{itemid}}个</text>
+    <text>当前订单号为"{{orderId}}",当前是第{{itemId}}个</text>
   </view>
   <view class="info_bar">
     <text>编号：{{number}}</text>
