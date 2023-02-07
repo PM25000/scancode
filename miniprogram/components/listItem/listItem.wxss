@@ -2,3 +2,6 @@
 .item_info{
   border: 5rpx solid green;
 }
+.info_bar {
+    margin: 30rpx 0;
+}

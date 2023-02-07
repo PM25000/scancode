@@ -2,19 +2,20 @@
 <text>{{item.unit_price}}</text>
 
 <view class="item_info">
-	<view class="info_bar">
-    <text>当前订单号为"{{orderId}}",当前是第{{itemId}}个</text>
+    <view class="info_bar">
+    <text>当前订单号为"{{orderId}}"</text>
+    <text wx:if="{{itemId!=0}}">,当前是第{{itemId}}个</text>
   </view>
   <view class="info_bar">
-    <text>编号：{{number}}</text>
+    <text>产品编号：{{productId}}</text>
   </view>
   <view class="info_bar">
-    <text>型号：{{xxxxxx}}</text>
+    <text>规格型号：{{specifications}}</text>
   </view>
   <view class="info_bar">
-    <text>数量：{{xxxxxx}}</text>
+    <text>数量：{{count}}</text>
   </view>
   <view class="info_bar">
-    <text>扫描数量：{{xxxxxx}}</text>
+    <text>扫描数量：{{scanCount}}</text>
   </view>
 </view>

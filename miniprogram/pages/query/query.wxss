@@ -6,3 +6,16 @@
 .flip text{
 	font-size: 80rpx;
 }
+.info_bar {
+    margin: 50rpx 0;
+}
+
+.item_info{
+    border: 5rpx solid green;
+  }
+.item_info_bar {
+    margin: 30rpx 0;
+}
+.scanView {
+    margin: 30rpx auto;
+}

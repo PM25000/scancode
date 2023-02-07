@@ -14,7 +14,7 @@ Component({
             type: Number,
         },
         orderId:{
-            type: Number,
+            type: String,
         }
     },
 
@@ -22,7 +22,10 @@ Component({
      * 组件的初始数据
      */
     data: {
-
+        productId:String,
+        specifications:String,
+        count:Number,
+        scanCount:Number,
     },
 
     /**
