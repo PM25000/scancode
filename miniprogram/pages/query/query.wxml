@@ -2,8 +2,15 @@
 <!-- <text>pages/scan/scan.wxml</text> -->
 <view class="top">
     <form bindsubmit="queryOrder" >
-        <input class="input" name="orderId" placeholder="请输入需要查询的订单号" value="SH2022021602"/>
-        <button class="query" form-type="submit">查询</button>
+        <input class="input" name="orderId" placeholder="请输入需要查询的订单号" value="{{orderId}}"/>
+    <view class="formBtns">
+        <view class="topBtn">
+            <button class="scanBtn" bindtap="handleScan" data-id="{{curId}}">点击扫码</button>
+        </view>
+        <view class="topBtn">
+            <button class="queryBtn" form-type="submit" >查询</button>
+        </view>
+    </view>
   <!-- <text>测试--当前送货单号：{{orderId}}</text> -->
         <text>当前送货单号：{{orderId}}</text>
     </form>
@@ -15,9 +22,9 @@
 </view>
 <view class="item_info">
     <view class="item_info_bar">
-    <text>当前订单号:{{orderId}}
-    </text>
-    <text wx:if="{{total!=null}}">当前是第{{itemId}}个,共{{total}}个</text>
+    <!-- <text>当前订单号:{{orderId}}
+    </text> -->
+    <text wx:if="{{total!=0}}">当前是第{{itemId}}个,共{{total}}个</text>
     <text wx:else>该订单信息为空！</text>
   </view>
   <view class="item_info_bar">
@@ -25,6 +32,9 @@
   </view>
   <view class="item_info_bar">
     <text>规格型号：{{specifications}}</text>
+  </view>
+  <view class="item_info_bar">
+    <text>客户料号：{{matCode}}</text>
   </view>
   <view class="item_info_bar">
     <text>数量：{{count}}</text>
@@ -44,10 +54,12 @@
 </view>
 
 <view class="scanResult">
-  <view class="info_bar">
+  <view class="info_bar" style="background-color: {{curId==0?'green':'white'}};">
     <text>客户标签：{{res[0]}}</text>
+    <text>{{res[2]}}</text>
   </view>
-  <view class="info_bar">
+  <view class="info_bar" style="background-color: {{curId==1?'green':'white'}};">
     <text>入库标签：{{res[1]}}</text>
+    <text>{{res[3]}}</text>
   </view>
 </view>

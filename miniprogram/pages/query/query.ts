@@ -6,17 +6,19 @@ Page({
      */
     data: {
         res:[""],
+        scanRes:'',
         curId:0,
-        scanFunctionIsUseAble: true,
-        ret:[],
+        scanFunctionIsUseAble: false,
+        ret:{},
         time:'time',
-        orderId: '',
+        orderId: 'SH2022021602',
         itemId: 0,
         total: 0,
-        productId:String,
-        specifications:String,
-        count:Number,
-        scanCount:Number,
+        productId:'',//产品编号
+        specifications:'',//规格型号
+        count:0,
+        scanCount:0,
+        matCode:'',//客户料号
     },
 
     /**
@@ -74,92 +76,144 @@ Page({
     onShareAppMessage() {
 
     },
-    takeCode(e) {
-        if (this.data.scanFunctionIsUseAble){
-            console.log("开始扫码了: ");
-            this.setData({
-                scanFunctionIsUseAble: false,
-            
-            })
-            
-            var res = e.detail.result;
-            
-            console.log(res);
-            
-            this.setData({
-                [`res[${this.data.curId}]`]:res,
-                curId:this.data.curId^1,
-            })
 
-            setTimeout(() => {
+    
+
+    handleScan()
+    {
+        wx.scanCode({
+            onlyFromCamera: true,
+            scanType: ['barCode'],
+            success: (res) => {
+                this.setData({
+                    orderId:res.result,
+                })
+                this.queryOrder(null)
+            },
+            complete: () => {
+            }
+        })
+    },
+
+
+    takeCode(e) {
+        if (!this.data.scanFunctionIsUseAble)
+            return;
+        if(e.detail.type!='qrcode'){
+            return;
+        }
+        var res:string = e.detail.result;
+        if(res==this.data.scanRes){
+            return;
+        }
+        this.setData({
+            scanFunctionIsUseAble: false,
+        })
+        this.setData({
+            scanRes:res,
+        })
+        console.log(e);
+        
+        this.setData({
+            [`res[${this.data.curId}]`]:res,
+        })
+        
+        const innerAudioContext = wx.createInnerAudioContext({
+            useWebAudioImplement: true // 是否使用 WebAudio 作为底层音频驱动，默认关闭。对于短音频、播放频繁的音频建议开启此选项，开启后将获得更优的性能表现。由于开启此选项后也会带来一定的内存增长，因此对于长音频建议关闭此选项
+        })
+        innerAudioContext.src = 'music/aa.mp3'
+        // console.log(innerAudioContext.src)
+        innerAudioContext.play()
+
+        if(this.data.curId==0){
+            let resContext=res.split('*')[1]
+            if(resContext==this.data.matCode || resContext==this.data.specifications){
+                this.setData({
+                    [`res[${this.data.curId+2}]`]:'',
+                })
+                setTimeout(() => {
+                    this.setData({
+                        scanFunctionIsUseAble: true,
+                        curId:this.data.curId^1,
+                    })
+                }, 1200);
+            }else{
                 this.setData({
                     scanFunctionIsUseAble: true,
-                
+                    [`res[${this.data.curId+2}]`]:'客户标签型号与发货型号不符',
                 })
-            }, 1000);
-
-            
-            const innerAudioContext = wx.createInnerAudioContext({
-                useWebAudioImplement: true // 是否使用 WebAudio 作为底层音频驱动，默认关闭。对于短音频、播放频繁的音频建议开启此选项，开启后将获得更优的性能表现。由于开启此选项后也会带来一定的内存增长，因此对于长音频建议关闭此选项
+                return;
+            }
+        }else{
+            let tsql=`SELECT  spec_type_no, batch_no,
+            pln_amt, mat_code,  print_date, if_scan, 
+            scan_date
+            FROM label_detail 
+            WHERE label_detail.lab_id = '${res}'`
+            console.log(tsql)
+            this.sqlQueryById(tsql,0,(data)=>{
+                if(data==null){
+                    this.setData({
+                        scanFunctionIsUseAble: true,
+                        [`res[${this.data.curId+2}]`]:'查询规格型号失败',
+                    })
+                    return;
+                }
+                this.setData({
+                    [`res[${this.data.curId}]`]:data.spec_type_no,
+                })
+                let resContext=data.spec_type_no.trim()
+                console.log(resContext)
+                console.log(this.data.specifications)
+                console.log(resContext==this.data.specifications)
+                if(resContext==this.data.specifications){
+                    this.setData({
+                        [`res[${this.data.curId+2}]`]:'',
+                        scanCount:this.data.scanCount+Number(data.pln_amt),
+                    })
+                    setTimeout(() => {
+                        this.setData({
+                            scanFunctionIsUseAble: true,
+                            curId:this.data.curId^1,
+                            res:[''],
+                        })
+                    }, 1200);
+                }else{
+                    this.setData({
+                        scanFunctionIsUseAble: true,
+                        [`res[${this.data.curId+2}]`]:'入库标签型号与发货型号不符',
+                    })
+                    return;
+                }
             })
-            innerAudioContext.src = 'music/aa.mp3'
-            console.log(innerAudioContext.src)
-            innerAudioContext.play()
+            
         }
+
+        this.setData({
+            
+        })
+
         
     },
 
-    formSubmit(e){
-        console.log(e.detail.value);
-        this.setData({
-            time:e.timeStamp,
-        })
-        let tsql = e.detail.value.tsql;
-        console.log(this.data.time);
-        console.log(tsql);
-
-        wx.request({
-            url: 'http://120.25.152.151:8080/index.php', 
-            header: {
-              "Content-Type": "application/x-www-form-urlencoded"
-            },
-            method: "POST",
-            dataType: "json",
-            data: { 
-                tsql: tsql,
-                uid: "sa",
-                pwd: "xkdsa",
-            },
-            success: (res) => {
-                console.log(res.data);
-                wx.showToast({
-                    title: '提交成功！！！',
-                    icon: 'success',
-                    duration: 1500
-                })
-                this.setData({
-                    ret: res.data,
-                })
-                console.log(res.data);
-            }
-          })
-          console.log(this.data.ret);
-    },
+    
     last_item(e){
-      var data=this.data.itemId;
-      if (data>1) data -= 1;
-      this.setData({
-        itemId: data
-      });
-      this.updateInfo()
+        if(this.data.total==0)return;
+        var data=this.data.itemId;
+        if (data>1) data -= 1;
+        this.setData({
+            itemId: data
+        });
+        this.updateInfo()
     },
     next_item(e){
-      var data=this.data.itemId;
-      if (data<this.data.total) data += 1;
-      this.setData({
-        itemId: data
-      });
-      this.updateInfo()
+        if(this.data.total==0)return;
+        var data=this.data.itemId;
+        if (data<this.data.total) data += 1;
+        this.setData({
+            itemId: data
+        });
+        this.updateInfo()
     },
     // orderIdInput: function(e){
     //     this.setData({
@@ -167,14 +221,16 @@ Page({
     //     })
     // },
     queryOrder(e){
-        console.log(e.detail.value.orderId)
-        this.setData({
-            orderId: e.detail.value.orderId
-        })
+        if(e!=null){
+            console.log(e.detail.value.orderId)
+            this.setData({
+                orderId: e.detail.value.orderId
+            })
+        }
 
         let tsql=`SELECT BILL_DET.DELIVER_LIST_NO
    FROM BILL_DET
-  WHERE BILL_DET.DELIVER_LIST_NO =  '${e.detail.value.orderId}'`;
+  WHERE BILL_DET.DELIVER_LIST_NO =  '${this.data.orderId}'`;
 
         this.sqlQueryCnt(tsql,(cnt)=>{
             console.log(cnt)
@@ -182,6 +238,7 @@ Page({
                 this.setData({
                     itemId:1,
                     total:Number(cnt),
+                    scanFunctionIsUseAble:true,
                 })
                 console.log(this.data.total)
                 this.updateInfo()
@@ -190,12 +247,12 @@ Page({
             {
                 this.setData({
                     itemId:0,
-                    total:null,
-                    productId:String,
-                    specifications:String,
-                    count:Number,
-                    scanCount:Number,
-
+                    total:0,
+                    productId:'',//产品编号
+                    specifications:'',//规格型号
+                    count:0,
+                    scanCount:0,
+                    matCode:'',//客户料号
                 })
             }
         });
@@ -221,7 +278,7 @@ Page({
             success: (res) => {
                 console.log(res.data);
                 wx.showToast({
-                    title: '提交成功！！！',
+                    title: '查询成功！！！',
                     icon: 'success',
                     duration: 1500
                 })
@@ -251,7 +308,7 @@ Page({
             success: (res) => {
                 console.log(res.data);
                 wx.showToast({
-                    title: '提交成功！！！',
+                    title: '查询成功！！！',
                     icon: 'success',
                     duration: 1500
                 })
@@ -284,10 +341,14 @@ Page({
 
         this.sqlQueryById(tsql,this.data.itemId-1,(data)=>{
             this.setData({
-                productId:data.new_start_mat_code,
-                specifications:data.mat_name,
-                count:data.in_NUM,
-                scanCount:data.scan_amt,
+                curId:0,
+                productId:data.new_start_mat_code.trim(),
+                specifications:data.mat_name.trim(),
+                matCode:data.USER_MATCODE.trim(),
+                count:Number(data.in_NUM),
+                scanCount:Number(data.scan_amt),
+                res:[""],
+                scanRes:'',
             })
         });
 
