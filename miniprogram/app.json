@@ -9,17 +9,5 @@
         "navigationBarTitleText": "Weixin",
         "navigationBarTextStyle": "black"
     },
-    "tabBar": {
-        "list": [
-            {
-                "pagePath": "pages/query/query",
-                "text": "查询"
-            },
-            {
-                "pagePath": "pages/scan/scan",
-                "text": "扫描"
-            }
-        ]
-    },
     "sitemapLocation": "sitemap.json"
 }
