@@ -19,6 +19,7 @@ Page({
         count:0,
         scanCount:0,
         matCode:'',//客户料号
+        notScanCnt:0,
     },
 
     /**
@@ -86,7 +87,7 @@ Page({
             scanType: ['barCode'],
             success: (res) => {
                 this.setData({
-                    orderId:res.result,
+                    orderId:'SH'+res.result,
                 })
                 this.queryOrder(null)
             },
@@ -159,17 +160,22 @@ Page({
                     })
                     return;
                 }
+                if(data.if_scan=='Y'){
+                    this.setData({
+                        scanFunctionIsUseAble: true,
+                        [`res[${this.data.curId+2}]`]:'该标签已扫描',
+                    })
+                    return;
+                }
                 this.setData({
                     [`res[${this.data.curId}]`]:data.spec_type_no,
                 })
                 let resContext=data.spec_type_no.trim()
-                console.log(resContext)
-                console.log(this.data.specifications)
-                console.log(resContext==this.data.specifications)
                 if(resContext==this.data.specifications){
                     this.setData({
                         [`res[${this.data.curId+2}]`]:'',
                         scanCount:this.data.scanCount+Number(data.pln_amt),
+                        notScanCnt:this.data.notScanCnt-1,
                     })
                     setTimeout(() => {
                         this.setData({
@@ -351,8 +357,11 @@ Page({
                 scanRes:'',
             })
         });
-
-
-
+    },
+    jmpNotScanList(){
+        console.log(111)
+        wx.navigateTo({
+            url: '/pages/notScanList/notScanList'
+        })
     }
 })

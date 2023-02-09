@@ -1,12 +1,13 @@
 {
     "pages": [
         "pages/query/query",
-        "pages/scan/scan"
+        "pages/scan/scan",
+        "pages/notScanList/notScanList"
     ],
     "window": {
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#fff",
-        "navigationBarTitleText": "Weixin",
+        "navigationBarTitleText": "发货标签核对",
         "navigationBarTextStyle": "black"
     },
     "sitemapLocation": "sitemap.json"

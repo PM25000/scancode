@@ -40,7 +40,7 @@
     <text>数量：{{count}}</text>
   </view>
   <view class="item_info_bar">
-    <text>扫描数量：{{scanCount}}</text>
+    <text>已扫描数量：{{scanCount}}</text>
   </view>
 </view>
 
@@ -62,4 +62,7 @@
     <text>入库标签：{{res[1]}}</text>
     <text>{{res[3]}}</text>
   </view>
+</view>
+<view class="notScanListView">
+    <button class="notScanListBtn" bindtap="jmpNotScanList">未扫描标签数：{{notScanCnt}}</button>
 </view>
