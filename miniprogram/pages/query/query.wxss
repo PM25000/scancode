@@ -11,7 +11,9 @@
 }
 
 .item_info{
-    border: 5rpx solid green;
+    margin: 10rpx;
+    border: 5rpx solid black;
+    padding: 10rpx;
   }
 .item_info_bar {
     margin: 20rpx 0;
@@ -26,4 +28,16 @@
 }
 .topBtn > button , .topBtn{
     width: 280rpx;
+}
+
+.empty{
+    text-align: center;
+    color: red;
+    font-size: 60rpx;
+}
+
+.scan_tag{
+	margin: 10rpx;
+	padding: 20rpx;
+	border: 5rpx solid black;
 }

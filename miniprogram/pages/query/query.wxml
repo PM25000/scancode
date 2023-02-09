@@ -24,23 +24,27 @@
     <view class="item_info_bar">
     <!-- <text>当前订单号:{{orderId}}
     </text> -->
-    <text wx:if="{{total!=0}}">当前是第{{itemId}}个,共{{total}}个</text>
-    <text wx:else>该订单信息为空！</text>
-  </view>
-  <view class="item_info_bar">
-    <text>产品编号：{{productId}}</text>
-  </view>
-  <view class="item_info_bar">
-    <text>规格型号：{{specifications}}</text>
-  </view>
-  <view class="item_info_bar">
-    <text>客户料号：{{matCode}}</text>
-  </view>
-  <view class="item_info_bar">
-    <text>数量：{{count}}</text>
-  </view>
-  <view class="item_info_bar">
-    <text>已扫描数量：{{scanCount}}</text>
+    <view wx:if="{{total!=0}}" class="nonempty">
+      <text>当前是第{{itemId}}个,共{{total}}个</text>
+      <view class="item_info_bar">
+        <text>产品编号：{{productId}}</text>
+      </view>
+      <view class="item_info_bar">
+        <text>规格型号：{{specifications}}</text>
+      </view>
+      <view class="item_info_bar">
+        <text>客户料号：{{matCode}}</text>
+      </view>
+      <view class="item_info_bar">
+        <text>数量：{{count}}</text>
+      </view>
+      <view class="item_info_bar">
+        <text>已扫描数量：{{scanCount}}</text>
+      </view>
+    </view>
+    <view wx:else class="empty">
+      <text>该订单信息为空！</text>
+    </view>
   </view>
 </view>
 
@@ -54,11 +58,11 @@
 </view>
 
 <view class="scanResult">
-  <view class="info_bar" style="background-color: {{curId==0?'green':'white'}};">
+  <view class="scan_tag">
     <text>客户标签：{{res[0]}}</text>
     <text>{{res[2]}}</text>
   </view>
-  <view class="info_bar" style="background-color: {{curId==1?'green':'white'}};">
+  <view class="scan_tag">
     <text>入库标签：{{res[1]}}</text>
     <text>{{res[3]}}</text>
   </view>
