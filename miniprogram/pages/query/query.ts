@@ -20,6 +20,7 @@ Page({
         scanCount:0,
         matCode:'',//客户料号
         notScanCnt:0,
+        notScanTsql:'',
     },
 
     /**
@@ -192,6 +193,13 @@ Page({
                     ( LABEL_DETAIL.LAB_ID like '${labelId}' ) And  
                     ( datediff(dd,LABEL_DETAIL.print_date,'${data.print_date.date}') = 0 )`
                     console.log(tsql)
+                    this.setData({
+                        notScanTsql:`SELECT  lab_id
+                        FROM label_detail 
+                        WHERE ( isnull(LABEL_DETAIL.IF_SCAN,'N') = 'N' ) And  
+                        ( LABEL_DETAIL.LAB_ID like '${labelId}' ) And  
+                        ( datediff(dd,LABEL_DETAIL.print_date,'${data.print_date.date}') = 0 )`,
+                    })
                     this.sqlQueryCnt(tsql,(cnt)=>{
                         this.setData({
                             notScanCnt:cnt-1,
@@ -201,6 +209,9 @@ Page({
                     this.setData({
                         notScanCnt:this.data.notScanCnt-1,
                     })
+                    if(this.data.notScanCnt==0){
+                        this.data.notScanTsql=''
+                    }
                 }
                 setTimeout(() => {
                     this.setData({
@@ -385,7 +396,7 @@ Page({
             },
             success:(res)=>{
                 res.eventChannel.emit('acceptLabelId',{
-                    data: 'test',
+                    tsql: this.data.notScanTsql,
                 })
             }
         })

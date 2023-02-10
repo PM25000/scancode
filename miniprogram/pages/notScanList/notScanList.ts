@@ -15,11 +15,10 @@ Page({
     onLoad() {
         const eventChannel = this.getOpenerEventChannel()
         eventChannel.on('acceptLabelId', (data) => {
-            console.log(data)
+            console.log(data.tsql)
             this.setData({
-                labelId:data,
+                tsql:data.tsql,
             })
-            let tsql=``
             wx.request({
                 url: 'http://120.25.152.151:8080/index.php', 
                 header: {
@@ -28,7 +27,7 @@ Page({
                 method: "POST",
                 dataType: "json",
                 data: { 
-                    tsql: tsql,
+                    tsql: data.tsql,
                     uid: "sa",
                     pwd: "xkdsa",
                     offset: "-1",
@@ -43,8 +42,7 @@ Page({
                     this.setData({
                         ret: res.data,
                     })
-                    t(res.data.cnt)
-                    //console.log(res.data);
+                    console.log(res.data);
                 }
             })
         })
