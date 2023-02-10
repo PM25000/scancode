@@ -58,11 +58,11 @@
 </view>
 
 <view class="scanResult">
-  <view class="scan_tag">
+  <view class="scan_tag" style="background-color: {{curId==0?'green':'white'}};">
     <text>客户标签：{{res[0]}}</text>
     <text>{{res[2]}}</text>
   </view>
-  <view class="scan_tag">
+  <view class="scan_tag" style="background-color: {{curId==1?'green':'white'}};">
     <text>入库标签：{{res[1]}}</text>
     <text>{{res[3]}}</text>
   </view>

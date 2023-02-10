@@ -5,14 +5,49 @@ Page({
      * 页面的初始数据
      */
     data: {
-
+        labelId:'',
+        labels:[],
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad() {
-
+        const eventChannel = this.getOpenerEventChannel()
+        eventChannel.on('acceptLabelId', (data) => {
+            console.log(data)
+            this.setData({
+                labelId:data,
+            })
+            let tsql=``
+            wx.request({
+                url: 'http://120.25.152.151:8080/index.php', 
+                header: {
+                  "Content-Type": "application/x-www-form-urlencoded"
+                },
+                method: "POST",
+                dataType: "json",
+                data: { 
+                    tsql: tsql,
+                    uid: "sa",
+                    pwd: "xkdsa",
+                    offset: "-1",
+                },
+                success: (res) => {
+                    console.log(res.data);
+                    wx.showToast({
+                        title: '查询成功！！！',
+                        icon: 'success',
+                        duration: 1500
+                    })
+                    this.setData({
+                        ret: res.data,
+                    })
+                    t(res.data.cnt)
+                    //console.log(res.data);
+                }
+            })
+        })
     },
 
     /**

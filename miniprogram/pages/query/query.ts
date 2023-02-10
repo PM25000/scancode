@@ -109,8 +109,6 @@ Page({
         }
         this.setData({
             scanFunctionIsUseAble: false,
-        })
-        this.setData({
             scanRes:res,
         })
         console.log(e);
@@ -153,6 +151,7 @@ Page({
             WHERE label_detail.lab_id = '${res}'`
             console.log(tsql)
             this.sqlQueryById(tsql,0,(data)=>{
+                console.log(data.if_scan)
                 if(data==null){
                     this.setData({
                         scanFunctionIsUseAble: true,
@@ -167,30 +166,49 @@ Page({
                     })
                     return;
                 }
+                let resContext:string=data.spec_type_no.trim()
                 this.setData({
-                    [`res[${this.data.curId}]`]:data.spec_type_no,
+                    [`res[${this.data.curId}]`]:resContext,
                 })
-                let resContext=data.spec_type_no.trim()
-                if(resContext==this.data.specifications){
-                    this.setData({
-                        [`res[${this.data.curId+2}]`]:'',
-                        scanCount:this.data.scanCount+Number(data.pln_amt),
-                        notScanCnt:this.data.notScanCnt-1,
-                    })
-                    setTimeout(() => {
-                        this.setData({
-                            scanFunctionIsUseAble: true,
-                            curId:this.data.curId^1,
-                            res:[''],
-                        })
-                    }, 1200);
-                }else{
+                if(resContext!=this.data.specifications){
                     this.setData({
                         scanFunctionIsUseAble: true,
                         [`res[${this.data.curId+2}]`]:'入库标签型号与发货型号不符',
                     })
                     return;
                 }
+                this.setData({
+                    [`res[${this.data.curId+2}]`]:'',
+                    scanCount:this.data.scanCount+Number(data.pln_amt),
+                })
+                if(this.data.notScanCnt==0){
+                    let labelId=res.substr(0,10)+'%'
+                    //console.log(labelId)
+                    let tsql=`SELECT  lab_id, spec_type_no, batch_no,
+                    pln_amt, mat_code,  print_date, if_scan, 
+                    scan_date
+                    FROM label_detail 
+                    WHERE ( isnull(LABEL_DETAIL.IF_SCAN,'N') = 'N' ) And  
+                    ( LABEL_DETAIL.LAB_ID like '${labelId}' ) And  
+                    ( datediff(dd,LABEL_DETAIL.print_date,'${data.print_date.date}') = 0 )`
+                    console.log(tsql)
+                    this.sqlQueryCnt(tsql,(cnt)=>{
+                        this.setData({
+                            notScanCnt:cnt-1,
+                        })
+                    })
+                }else{
+                    this.setData({
+                        notScanCnt:this.data.notScanCnt-1,
+                    })
+                }
+                setTimeout(() => {
+                    this.setData({
+                        scanFunctionIsUseAble: true,
+                        curId:this.data.curId^1,
+                        res:[''],
+                    })
+                }, 1200);
             })
             
         }
@@ -321,10 +339,10 @@ Page({
                 this.setData({
                     ret: res.data,
                 })
-                t(res.data.cnt)
+                t(Number(res.data.cnt))
                 //console.log(res.data);
             }
-          })
+        })
     },
     updateInfo(){
         
@@ -359,9 +377,17 @@ Page({
         });
     },
     jmpNotScanList(){
-        console.log(111)
+        //console.log(111)
         wx.navigateTo({
-            url: '/pages/notScanList/notScanList'
+            url: '/pages/notScanList/notScanList',
+            events: {
+
+            },
+            success:(res)=>{
+                res.eventChannel.emit('acceptLabelId',{
+                    data: 'test',
+                })
+            }
         })
     }
 })
