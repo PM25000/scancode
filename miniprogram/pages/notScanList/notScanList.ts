@@ -33,7 +33,6 @@ Page({
                     offset: "-1",
                 },
                 success: (res) => {
-                    console.log(res.data);
                     wx.showToast({
                         title: '查询成功！！！',
                         icon: 'success',
@@ -42,7 +41,6 @@ Page({
                     this.setData({
                         ret: res.data,
                     })
-                    console.log(res.data);
                 }
             })
         })

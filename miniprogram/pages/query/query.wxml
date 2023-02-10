@@ -3,14 +3,14 @@
 <view class="top">
     <form bindsubmit="queryOrder" >
         <input class="input" name="orderId" placeholder="请输入需要查询的订单号" value="{{orderId}}"/>
-    <view class="formBtns">
-        <view class="topBtn">
-            <button class="scanBtn" bindtap="handleScan" data-id="{{curId}}">点击扫码</button>
+        <view class="formBtns">
+            <view class="topBtn">
+                <button class="scanBtn" bindtap="handleScan" data-id="{{curId}}">点击扫码</button>
+            </view>
+            <view class="topBtn">
+                <button class="queryBtn" form-type="submit" >查询</button>
+            </view>
         </view>
-        <view class="topBtn">
-            <button class="queryBtn" form-type="submit" >查询</button>
-        </view>
-    </view>
   <!-- <text>测试--当前送货单号：{{orderId}}</text> -->
         <text>当前送货单号：{{orderId}}</text>
     </form>
@@ -40,6 +40,9 @@
       </view>
       <view class="item_info_bar">
         <text>已扫描数量：{{scanCount}}</text>
+      </view>
+      <view class="item_info_bar">
+        <text>本次扫描数量：{{scanCount-preScanCount}}</text>
       </view>
     </view>
     <view wx:else class="empty">

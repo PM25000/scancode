@@ -1,5 +1,5 @@
 <!--pages/notScanList/notScanList.wxml-->
-<text>pages/notScanList/notScanList.wxml</text>
+<!-- <text>pages/notScanList/notScanList.wxml</text> -->
 <view class="list">
     <view wx:for="{{ret}}" wx:key="index" wx:for-item="item">
         <text>{{item.lab_id}}</text>

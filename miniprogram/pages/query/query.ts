@@ -1,4 +1,7 @@
+import { formatTime } from "../../utils/util";
+
 // pages/query/query.ts
+var util = require('../../utils/util.js');
 Page({
 
     /**
@@ -14,6 +17,7 @@ Page({
         orderId: 'SH2022021602',
         itemId: 0,
         total: 0,
+        billCod:0,
         productId:'',//产品编号
         specifications:'',//规格型号
         count:0,
@@ -48,14 +52,14 @@ Page({
      * 生命周期函数--监听页面隐藏
      */
     onHide() {
-
+        this.saveScanCnt()
     },
 
     /**
      * 生命周期函数--监听页面卸载
      */
     onUnload() {
-
+        this.saveScanCnt()
     },
 
     /**
@@ -152,7 +156,6 @@ Page({
             WHERE label_detail.lab_id = '${res}'`
             console.log(tsql)
             this.sqlQueryById(tsql,0,(data)=>{
-                console.log(data.if_scan)
                 if(data==null){
                     this.setData({
                         scanFunctionIsUseAble: true,
@@ -182,6 +185,35 @@ Page({
                     [`res[${this.data.curId+2}]`]:'',
                     scanCount:this.data.scanCount+Number(data.pln_amt),
                 })
+                
+                let tsql=`update label_detail
+                set if_scan = 'Y',
+                     scan_date = getdate()
+                WHERE lab_id = '${res}'`
+                console.log(tsql)
+                wx.request({
+                    url: 'http://120.25.152.151:8080/index.php', 
+                    header: {
+                      "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    method: "POST",
+                    dataType: "json",
+                    data: { 
+                        tsql: tsql,
+                        uid: "sa",
+                        pwd: "xkdsa",
+                        offset: -2,
+                    },
+                    success: (res) => {
+                        console.log(res.data);
+                        wx.showToast({
+                            title: '查询成功！！！',
+                            icon: 'success',
+                            duration: 1500
+                        })
+                    }
+                })
+
                 if(this.data.notScanCnt==0){
                     let labelId=res.substr(0,10)+'%'
                     //console.log(labelId)
@@ -262,6 +294,7 @@ Page({
                 orderId: e.detail.value.orderId
             })
         }
+        this.saveScanCnt()
 
         let tsql=`SELECT BILL_DET.DELIVER_LIST_NO
    FROM BILL_DET
@@ -356,12 +389,13 @@ Page({
         })
     },
     updateInfo(){
-        
+        this.saveScanCnt()
         let tsql=`SELECT new_start_mat_code = MAT_MASTER.new_start_mat_code,
         in_NUM = BILL_DET.in_NUM,       
         mat_name = MAT_MASTER.SPEC_TYPE_NO,  
         USER_MATCODE  = customer_mat.USER_MATCODE,
-        scan_amt = BILL_DET.scan_amt
+        scan_amt = BILL_DET.scan_amt,
+        bill_cod = BILL_DET.BILL_COD
    FROM BILL_DET left outer join (ct_od inner join CT_ORDER on ct_od.ORDER_NO = CT_ORDER.ORDER_NO)  on  BILL_DET.ct_cd = ct_od.ct_cd and 
                                            BILL_DET.ORDER_NO = ct_od.order_no             
          left outer join customer_mat with(nolock) on ct_od.usermat_id = customer_mat.id,  
@@ -382,10 +416,44 @@ Page({
                 matCode:data.USER_MATCODE.trim(),
                 count:Number(data.in_NUM),
                 scanCount:Number(data.scan_amt),
+                preScanCount:Number(data.scan_amt),
+                billCod:Number(data.bill_cod),
                 res:[""],
                 scanRes:'',
+                notScanCnt:0,
+                notScanTsql:'',
             })
         });
+    },
+
+    saveScanCnt(){
+        let tsql = `update BILL_DET 
+        set scan_amt = ${this.data.scanCount}
+        WHERE BILL_DET.DELIVER_LIST_NO =  '${this.data.orderId}' 
+        and BILL_COD = ${this.data.billCod}`
+        console.log(tsql)
+        wx.request({
+            url: 'http://120.25.152.151:8080/index.php', 
+            header: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            method: "POST",
+            dataType: "json",
+            data: { 
+                tsql: tsql,
+                uid: "sa",
+                pwd: "xkdsa",
+                offset: -2,
+            },
+            success: (res) => {
+                console.log(res.data);
+                wx.showToast({
+                    title: '查询成功！！！',
+                    icon: 'success',
+                    duration: 1500
+                })
+            }
+        })
     },
     jmpNotScanList(){
         //console.log(111)

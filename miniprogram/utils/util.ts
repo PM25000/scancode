@@ -5,11 +5,14 @@ export const formatTime = (date: Date) => {
   const hour = date.getHours()
   const minute = date.getMinutes()
   const second = date.getSeconds()
+  const milisecond = date.getMilliseconds()
 
   return (
-    [year, month, day].map(formatNumber).join('/') +
+    [year, month, day].map(formatNumber).join('-') +
     ' ' +
-    [hour, minute, second].map(formatNumber).join(':')
+    [hour, minute, second].map(formatNumber).join(':') +
+    '.' +
+    milisecond
   )
 }
 
