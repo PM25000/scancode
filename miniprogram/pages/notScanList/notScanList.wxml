@@ -1,7 +1,17 @@
 <!--pages/notScanList/notScanList.wxml-->
 <!-- <text>pages/notScanList/notScanList.wxml</text> -->
 <view class="list">
-    <view wx:for="{{ret}}" wx:key="index" wx:for-item="item">
-        <text>{{item.lab_id}}</text>
+    <view wx:if="{{ret.length!=0}}">
+        <view style="text-align: center; font-size: 60rpx;">
+            <text>未扫描标签</text>
+        </view>
+        <view wx:for="{{ret}}" wx:key="index" wx:for-item="item">
+            <text>{{item.lab_id}}</text>
+        </view>
+    </view>
+    <view wx:else>
+        <view style="text-align: center; font-size: 60rpx; padding-top: 400rpx;">
+            <text>所有标签都已扫描！</text>
+        </view>
     </view>
 </view>

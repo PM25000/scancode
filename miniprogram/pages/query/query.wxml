@@ -2,17 +2,18 @@
 <!-- <text>pages/scan/scan.wxml</text> -->
 <view class="top">
     <form bindsubmit="queryOrder" >
-        <input class="input" name="orderId" placeholder="请输入需要查询的订单号" value="{{orderId}}"/>
+        <input class="input" name="orderId" placeholder="请输入需要查询的订单号" value="{{orderId}}" style="background-color: whitesmoke;"/>
+        <text>当前送货单号：{{orderId}}</text>
         <view class="formBtns">
-            <view class="topBtn">
-                <button class="scanBtn" bindtap="handleScan" data-id="{{curId}}">点击扫码</button>
-            </view>
             <view class="topBtn">
                 <button class="queryBtn" form-type="submit" >查询</button>
             </view>
+            <view class="topBtn">
+                <button class="scanBtn" bindtap="handleScan" data-id="{{curId}}">点击扫码</button>
+            </view>
         </view>
   <!-- <text>测试--当前送货单号：{{orderId}}</text> -->
-        <text>当前送货单号：{{orderId}}</text>
+        <!-- <text>当前送货单号：{{orderId}}</text> -->
     </form>
 </view>
 <view class="flip">
@@ -61,7 +62,7 @@
 </view>
 
 <view class="scanResult">
-  <view class="scan_tag" style="background-color: {{curId==0?'green':'white'}};">
+  <view class="scan_tag" style="background-color: {{curId==0?'lightgreen':'white'}};">
     <text>客户标签：{{res[0]}}</text>
     <text>{{res[2]}}</text>
   </view>
