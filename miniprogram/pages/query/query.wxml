@@ -4,7 +4,7 @@
     <form bindsubmit="queryOrder" >
       <view style="display: flex; flex-direction: column; justify-content:center; align-items: center; text-align: center;">
         <text style="font-size: 40rpx;">当前送货单号</text>
-        <input class="input" name="orderId" placeholder="请输入需要查询的订单号" value="{{orderId}}" style="background-color: white; width: 60%; border: 6rpx solid blue;"/>
+        <input class="input" name="orderId" placeholder="请输入需要查询的订单号" value="{{orderId}}" style="background-color: white; width: 60%; border: 6rpx solid blue; border-radius: 10rpx;"/>
       </view>
         <view class="formBtns">
             <view class="topBtn">

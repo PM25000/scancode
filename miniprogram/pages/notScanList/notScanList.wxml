@@ -5,7 +5,8 @@
         <view style="text-align: center; font-size: 60rpx;">
             <text>未扫描标签</text>
         </view>
-        <view wx:for="{{ret}}" wx:key="index" wx:for-item="item">
+        <view wx:for="{{ret}}" wx:key="index" wx:for-item="item"
+        style="font-size: 40rpx; padding-left: 10%;">
             <text>{{item.lab_id}}</text>
         </view>
     </view>
