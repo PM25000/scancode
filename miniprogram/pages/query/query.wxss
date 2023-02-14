@@ -1,10 +1,32 @@
 /* pages/query/query.wxss */
+page{
+    font-weight: 1000;
+    font-size: 30rpx;
+}
+.queryBtn{
+  background-color: blue;
+  color: white;
+  margin-top: 10rpx;
+  font-size: 35rpx;
+}
+.scanBtn{
+  background-color: blue;
+  color: white;
+  margin-top: 10rpx;
+  font-size: 35rpx;
+}
 .flip{
-	text-align: center;
-	/* flex-direction: row */
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  margin-top: 10rpx;
 }
 .flip text{
-	font-size: 80rpx;
+  font-size: 50rpx;
+  width: 240rpx;
+  /* background-color: red; */
 }
 .info_bar {
     padding: 50rpx 0;
@@ -12,11 +34,13 @@
 
 .item_info{
     margin: 10rpx;
-    border: 5rpx solid black;
+    border: 5rpx solid blue;
     padding: 10rpx;
   }
 .item_info_bar {
-    margin: 20rpx 0;
+    margin-left: 10rpx;
+    margin-right: 10rpx;
+    margin-top: 3rpx;
 }
 .scanView {
     margin: 20rpx auto;
@@ -24,6 +48,7 @@
 .formBtns{
     display:flex;
     flex-direction: row;
+    justify-content: center;
     justify-content: space-evenly;
 }
 .topBtn > button , .topBtn{

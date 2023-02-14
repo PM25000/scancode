@@ -2,14 +2,16 @@
 <!-- <text>pages/scan/scan.wxml</text> -->
 <view class="top">
     <form bindsubmit="queryOrder" >
-        <input class="input" name="orderId" placeholder="请输入需要查询的订单号" value="{{orderId}}" style="background-color: whitesmoke;"/>
-        <text>当前送货单号：{{orderId}}</text>
+      <view style="display: flex; flex-direction: column; justify-content:center; align-items: center; text-align: center;">
+        <text style="font-size: 40rpx;">当前送货单号</text>
+        <input class="input" name="orderId" placeholder="请输入需要查询的订单号" value="{{orderId}}" style="background-color: white; width: 60%; border: 6rpx solid blue;"/>
+      </view>
         <view class="formBtns">
             <view class="topBtn">
-                <button class="queryBtn" form-type="submit" >查询</button>
+                <button class="queryBtn" form-type="submit" style="width: 220rpx;">查询订单</button>
             </view>
             <view class="topBtn">
-                <button class="scanBtn" bindtap="handleScan" data-id="{{curId}}">点击扫码</button>
+                <button class="scanBtn" bindtap="handleScan" style="width: 220rpx;" data-id="{{curId}}">点击扫码</button>
             </view>
         </view>
   <!-- <text>测试--当前送货单号：{{orderId}}</text> -->
@@ -17,16 +19,16 @@
     </form>
 </view>
 <view class="flip">
-  <button bindtap="last_item" size="mini"> {{'<'}} </button>
-  <text> {{itemId}} </text>
-  <button bindtap="next_item" size="mini"> {{'>'}} </button>
+  <button bindtap="last_item" size="mini" style="margin-right: 0;"> {{'<'}} </button>
+  <text> {{itemId}}/{{total}} </text>
+  <button bindtap="next_item" size="mini" style="margin-left: 0;"> {{'>'}} </button>
 </view>
 <view class="item_info">
     <view class="item_info_bar">
     <!-- <text>当前订单号:{{orderId}}
     </text> -->
     <view wx:if="{{total!=0}}" class="nonempty">
-      <text>当前是第{{itemId}}个,共{{total}}个</text>
+      <!-- <text>当前是第{{itemId}}个,共{{total}}个</text> -->
       <view class="item_info_bar">
         <text>产品编号：{{productId}}</text>
       </view>
@@ -62,11 +64,11 @@
 </view>
 
 <view class="scanResult">
-  <view class="scan_tag" style="background-color: {{curId==0?'lightgreen':'white'}};">
+  <view class="scan_tag" style="color:{{curId==0?'white':'black'}}; background-color: {{curId==0?'blue':'white'}};">
     <text>客户标签：{{res[0]}}</text>
     <text>{{res[2]}}</text>
   </view>
-  <view class="scan_tag" style="background-color: {{curId==1?'green':'white'}};">
+  <view class="scan_tag" style="color:{{curId==0?'black':'white'}}; background-color: {{curId==1?'blue':'white'}};">
     <text>入库标签：{{res[1]}}</text>
     <text>{{res[3]}}</text>
   </view>
