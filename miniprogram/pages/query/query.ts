@@ -14,7 +14,7 @@ Page({
         scanFunctionIsUseAble: false,
         ret:{},
         time:'time',
-        orderId: 'SH2022021602',
+        orderId: '',
         itemId: 0,
         total: 0,
         billCod:0,
